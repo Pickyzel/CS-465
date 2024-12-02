@@ -8,28 +8,23 @@ const Model = mongoose.model('trips');
 const tripsList = async (req, res) => {
     const q = await Model
         .find({}) // No filter, return all records
-        .exec((err, trips) => {;
+        .exec();
 
         //Uncomment the following line to show results of querey
         //on the console
         //console.log(q);
 
-            if (!q) {
-               //Database returned no data
-                return res
-                    .status(404)
-                    .json({"message": "trip not found"});
-            } else if(err){ 
-                //Return resulting trip list
-                return res
-                    .status(404)
-                    .json(err);
-            } else {
-                return res
-                    .status(200)
-                    .json(trips)
-            }
-        });
+    if (!q) {
+       //Database returned no data
+        return res
+            .status(404)
+            .json(err);
+    } else { 
+        //Return resulting trip list
+        return res
+            .status(200)
+            .json(q);
+    }
 };
 
 const tripsFindByCode = async(req, res) => {
